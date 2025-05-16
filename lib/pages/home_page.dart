@@ -1,6 +1,10 @@
+import 'package:expense_tracker/cubit/expense_cubit.dart';
+import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/pages/add_expense_page.dart';
 import 'package:expense_tracker/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,37 +54,78 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
                   children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Expense \n  Tracker',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 55,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 40,
+                            horizontal: 20,
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ProfilePage(),
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.person_2_outlined,
+                              color: Colors.white,
+                              size: 75,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
                     Text(
-                      'Expense \n  Tracker',
+                      'Total',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 55,
                         color: Colors.white,
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 40,
-                        horizontal: 20,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ProfilePage(),
+                    SizedBox(height: 10),
+                    BlocBuilder<ExpenseCubit, List<Expense>>(
+                      builder: (context, expenses) {
+                        if (expenses.isEmpty) {
+                          return Text(
+                            '0',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
                             ),
                           );
-                        },
-                        icon: Icon(
-                          Icons.person_2_outlined,
-                          color: Colors.white,
-                          size: 75,
-                        ),
-                      ),
+                        }
+                        return ListView.builder(
+                          itemCount: expenses.length,
+                          itemBuilder: (context, index) {
+                            final expense = expenses[index];
+                            final totalAmount = expenses.fold<double>(
+                              0.0,
+                              (sum, expense) =>
+                                  sum +
+                                  (double.tryParse(expense.amount) ?? 0.0),
+                            );
+                            return Text(totalAmount.toStringAsFixed(2));
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -117,6 +162,33 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddExpensePage()),
+          );
+        },
+        backgroundColor: Colors.transparent,
+        child: Container(
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            gradient: LinearGradient(
+              colors: [
+                const Color.fromARGB(255, 33, 229, 243).withAlpha(100),
+                const Color.fromARGB(255, 14, 196, 246).withAlpha(100),
+              ],
+            ),
+            boxShadow: [
+              BoxShadow(color: const Color.fromARGB(255, 196, 51, 209)),
+            ],
+          ),
+          alignment: Alignment.center,
+          child: Text('+', style: TextStyle(fontSize: 30, color: Colors.white)),
+        ),
       ),
     );
   }
