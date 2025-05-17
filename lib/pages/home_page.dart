@@ -101,7 +101,13 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(height: 10),
                     BlocBuilder<ExpenseCubit, List<Expense>>(
                       builder: (context, expenses) {
-                        if (expenses.isEmpty) {
+                        final filteredExpenses =
+                            selectedState == 'All'
+                                ? expenses
+                                : expenses
+                                    .where((e) => e.category == selectedState)
+                                    .toList();
+                        if (filteredExpenses.isEmpty) {
                           return Text(
                             '0',
                             style: TextStyle(
@@ -111,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           );
                         }
-                        final totalAmount = expenses.fold<double>(
+                        final totalAmount = filteredExpenses.fold<double>(
                           0.0,
                           (sum, expense) =>
                               sum + (double.tryParse(expense.amount) ?? 0.0),
@@ -151,7 +157,9 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       backgroundColor:
-                          selectedState == filter ? Colors.amber : Colors.white,
+                          selectedState == filter
+                              ? Colors.amber
+                              : Colors.white54,
                       label: Text(filter),
                       labelStyle: TextStyle(fontSize: 16),
                     ),
@@ -166,7 +174,15 @@ class _HomePageState extends State<HomePage> {
             width: double.infinity,
             child: BlocBuilder<ExpenseCubit, List<Expense>>(
               builder: (context, expenses) {
-                if (expenses.isEmpty) {
+                final filteredExpenses =
+                    selectedState == 'All'
+                        ? expenses
+                        : expenses
+                            .where(
+                              (expense) => expense.category == selectedState,
+                            )
+                            .toList();
+                if (filteredExpenses.isEmpty) {
                   return Column(
                     children: [
                       Image.asset(
@@ -183,9 +199,9 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
                 return ListView.builder(
-                  itemCount: expenses.length,
+                  itemCount: filteredExpenses.length,
                   itemBuilder: (context, index) {
-                    final expense = expenses[index];
+                    final expense = filteredExpenses[index];
                     return Dismissible(
                       key: Key(expense.amount),
                       direction: DismissDirection.endToStart,
@@ -204,9 +220,11 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                       child: ExpenseCard(
+                        number: index + 1,
                         amount: expense.amount,
                         date: expense.date.toIso8601String(),
                         category: expense.category,
+                        description: expense.description,
                       ),
                     );
                   },

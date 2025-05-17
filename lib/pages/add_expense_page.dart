@@ -67,9 +67,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
 
               child: Container(
                 height: 60,
+
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black45),
-                  borderRadius: BorderRadius.circular(15),
                 ),
                 child: DropdownButton<String>(
                   hint: Text('Select Category'),

@@ -4,14 +4,17 @@ import 'package:flutter/widgets.dart';
 class ExpenseCard extends StatelessWidget {
   const ExpenseCard({
     super.key,
+    required this.number,
     required this.amount,
     required this.date,
     required this.category,
+    required this.description,
   });
-
+  final int number;
   final String amount;
   final String date;
   final String category;
+  final String description;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,9 +37,21 @@ class ExpenseCard extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Text(
-                    category.toUpperCase(),
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  Row(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          number.toString(),
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Text(
+                        category.toUpperCase(),
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 10),
                   Text(date, style: TextStyle(color: Colors.white)),
@@ -48,6 +63,12 @@ class ExpenseCard extends StatelessWidget {
               Text(amount, style: TextStyle(color: Colors.white, fontSize: 20)),
             ],
           ),
+          children: <Widget>[
+            Text(
+              description,
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+          ],
         ),
       ),
     );
