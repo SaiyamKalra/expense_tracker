@@ -54,7 +54,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 child: Column(
                   children: [
                     Row(
@@ -68,30 +71,25 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 40,
-                            horizontal: 20,
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ProfilePage(),
-                                ),
-                              );
-                            },
-                            icon: Icon(
-                              Icons.person_2_outlined,
-                              color: Colors.white,
-                              size: 55,
-                            ),
+                        SizedBox(width: 70),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ProfilePage(),
+                              ),
+                            );
+                          },
+                          icon: Icon(
+                            Icons.person_2_outlined,
+                            color: Colors.white,
+                            size: 55,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 40),
                     Text(
                       'Total',
                       style: TextStyle(
@@ -162,11 +160,27 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-          Expanded(
+
+          SizedBox(
+            height: 300,
+            width: double.infinity,
             child: BlocBuilder<ExpenseCubit, List<Expense>>(
               builder: (context, expenses) {
                 if (expenses.isEmpty) {
-                  return Text('Please Enter your daily Expenses');
+                  return Column(
+                    children: [
+                      Image.asset(
+                        "assets/images/no_data_image.png",
+                        height: 175,
+                        width: 175,
+                      ),
+                      SizedBox(height: 25),
+                      Text(
+                        'No expenses yet. Start tracking your spending!',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  );
                 }
                 return ListView.builder(
                   itemCount: expenses.length,
@@ -179,8 +193,16 @@ class _HomePageState extends State<HomePage> {
                         height: 20,
                         color: Colors.red,
                         alignment: Alignment.centerRight,
-                        child: Icon(Icons.delete),
+                        child: Icon(Icons.delete, color: Colors.white),
                       ),
+                      onDismissed: (direction) {
+                        context.read<ExpenseCubit>().removeExpense(expense);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Expense "${index + 1}" deleted'),
+                          ),
+                        );
+                      },
                       child: ExpenseCard(
                         amount: expense.amount,
                         date: expense.date.toIso8601String(),
