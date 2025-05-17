@@ -2,6 +2,7 @@ import 'package:expense_tracker/cubit/expense_cubit.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/pages/add_expense_page.dart';
 import 'package:expense_tracker/pages/profile_page.dart';
+import 'package:expense_tracker/utils/expense_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                             icon: Icon(
                               Icons.person_2_outlined,
                               color: Colors.white,
-                              size: 75,
+                              size: 55,
                             ),
                           ),
                         ),
@@ -112,18 +113,18 @@ class _HomePageState extends State<HomePage> {
                             ),
                           );
                         }
-                        return ListView.builder(
-                          itemCount: expenses.length,
-                          itemBuilder: (context, index) {
-                            final expense = expenses[index];
-                            final totalAmount = expenses.fold<double>(
-                              0.0,
-                              (sum, expense) =>
-                                  sum +
-                                  (double.tryParse(expense.amount) ?? 0.0),
-                            );
-                            return Text(totalAmount.toStringAsFixed(2));
-                          },
+                        final totalAmount = expenses.fold<double>(
+                          0.0,
+                          (sum, expense) =>
+                              sum + (double.tryParse(expense.amount) ?? 0.0),
+                        );
+                        return Text(
+                          totalAmount.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
                         );
                       },
                     ),
@@ -157,6 +158,36 @@ class _HomePageState extends State<HomePage> {
                       labelStyle: TextStyle(fontSize: 16),
                     ),
                   ),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            child: BlocBuilder<ExpenseCubit, List<Expense>>(
+              builder: (context, expenses) {
+                if (expenses.isEmpty) {
+                  return Text('Please Enter your daily Expenses');
+                }
+                return ListView.builder(
+                  itemCount: expenses.length,
+                  itemBuilder: (context, index) {
+                    final expense = expenses[index];
+                    return Dismissible(
+                      key: Key(expense.amount),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        height: 20,
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        child: Icon(Icons.delete),
+                      ),
+                      child: ExpenseCard(
+                        amount: expense.amount,
+                        date: expense.date.toIso8601String(),
+                        category: expense.category,
+                      ),
+                    );
+                  },
                 );
               },
             ),
