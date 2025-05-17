@@ -1,7 +1,7 @@
 import 'package:expense_tracker/cubit/expense_cubit.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/pages/add_expense_page.dart';
-import 'package:expense_tracker/pages/profile_page.dart';
+import 'package:expense_tracker/pages/search_page.dart';
 import 'package:expense_tracker/utils/expense_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -72,20 +72,27 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         SizedBox(width: 70),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ProfilePage(),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 40),
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const SearchPage(),
+                                    ),
+                                  );
+                                },
+                                icon: Icon(
+                                  Icons.search,
+                                  color: Colors.white,
+                                  size: 45,
+                                ),
                               ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.person_2_outlined,
-                            color: Colors.white,
-                            size: 55,
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -122,12 +129,25 @@ class _HomePageState extends State<HomePage> {
                           (sum, expense) =>
                               sum + (double.tryParse(expense.amount) ?? 0.0),
                         );
-                        return Text(
-                          totalAmount.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 60),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.currency_rupee_sharp,
+                                color: Colors.white,
+                                size: 40,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                totalAmount.toStringAsFixed(2),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       },
@@ -138,7 +158,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(
-            height: 100,
+            height: 80,
             child: ListView.builder(
               itemCount: filters.length,
               scrollDirection: Axis.horizontal,
@@ -168,10 +188,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-
-          SizedBox(
-            height: 300,
-            width: double.infinity,
+          Expanded(
             child: BlocBuilder<ExpenseCubit, List<Expense>>(
               builder: (context, expenses) {
                 final filteredExpenses =
@@ -254,7 +271,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             boxShadow: [
-              BoxShadow(color: const Color.fromARGB(255, 196, 51, 209)),
+              BoxShadow(color: const Color.fromARGB(255, 51, 130, 209)),
             ],
           ),
           alignment: Alignment.center,

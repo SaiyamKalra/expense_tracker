@@ -39,28 +39,40 @@ class ExpenseCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          number.toString(),
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
+                      Text(
+                        '$number .',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       SizedBox(width: 20),
-                      Text(
-                        category.toUpperCase(),
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      Column(
+                        children: [
+                          Text(
+                            category.toUpperCase(),
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            date.split('T')[0],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
-                  Text(date, style: TextStyle(color: Colors.white)),
                 ],
               ),
-              SizedBox(width: 7),
-              Icon(Icons.currency_rupee_sharp, color: Colors.white),
-              SizedBox(width: 2),
-              Text(amount, style: TextStyle(color: Colors.white, fontSize: 20)),
+              Spacer(),
+              Row(
+                children: [
+                  Icon(Icons.currency_rupee_sharp, color: Colors.white),
+                  SizedBox(width: 5),
+                  Text(
+                    amount,
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
+                  SizedBox(width: 10),
+                ],
+              ),
             ],
           ),
           children: <Widget>[

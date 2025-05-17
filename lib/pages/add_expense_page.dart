@@ -1,6 +1,7 @@
 import 'package:expense_tracker/cubit/expense_cubit.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,10 +42,13 @@ class _AddExpensePageState extends State<AddExpensePage> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               controller: _amountController,
               decoration: InputDecoration(
                 labelText: 'Amount',
                 border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.currency_rupee),
               ),
             ),
           ),
@@ -56,6 +60,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
               decoration: InputDecoration(
                 labelText: 'Description',
                 border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.abc),
               ),
             ),
           ),
@@ -67,7 +72,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
 
               child: Container(
                 height: 60,
-
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black45),
                 ),
