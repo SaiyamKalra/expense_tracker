@@ -4,7 +4,6 @@ import 'package:expense_tracker/pages/add_expense_page.dart';
 import 'package:expense_tracker/pages/search_page.dart';
 import 'package:expense_tracker/utils/expense_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           SizedBox(
             width: double.infinity,
-            height: 400,
+            height: 280,
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -60,43 +59,39 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Expense Tracker',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 35,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(width: 45),
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 40),
-                              child: IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SearchPage(),
-                                    ),
-                                  );
-                                },
-                                icon: Icon(
-                                  Icons.search,
-                                  color: Colors.white,
-                                  size: 45,
-                                ),
-                              ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Expense Tracker',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 35,
+                              color: Colors.white,
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          Spacer(),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SearchPage(),
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.search,
+                              color: Colors.white,
+                              size: 45,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: 2),
                     Text(
                       'Total',
                       style: TextStyle(
@@ -105,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 6),
                     BlocBuilder<ExpenseCubit, List<Expense>>(
                       builder: (context, expenses) {
                         final filteredExpenses =
@@ -129,9 +124,9 @@ class _HomePageState extends State<HomePage> {
                           (sum, expense) =>
                               sum + (double.tryParse(expense.amount) ?? 0.0),
                         );
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 60),
+                        return Center(
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
                                 Icons.currency_rupee_sharp,
@@ -179,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor:
                           selectedState == filter
                               ? Colors.amber
-                              : Colors.white54,
+                              : const Color.fromARGB(106, 158, 158, 158),
                       label: Text(filter),
                       labelStyle: TextStyle(fontSize: 16),
                     ),
@@ -264,15 +259,7 @@ class _HomePageState extends State<HomePage> {
           height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            gradient: LinearGradient(
-              colors: [
-                const Color.fromARGB(255, 33, 229, 243).withAlpha(100),
-                const Color.fromARGB(255, 14, 196, 246).withAlpha(100),
-              ],
-            ),
-            boxShadow: [
-              BoxShadow(color: const Color.fromARGB(255, 51, 130, 209)),
-            ],
+            color: Colors.amber,
           ),
           alignment: Alignment.center,
           child: Text('+', style: TextStyle(fontSize: 30, color: Colors.white)),

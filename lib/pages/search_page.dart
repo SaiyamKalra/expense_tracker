@@ -26,9 +26,12 @@ class _ExpenseSearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'S E A R C H  P A G E',
-          style: TextStyle(color: Colors.black),
+        title: Padding(
+          padding: const EdgeInsets.all(40.0),
+          child: Text(
+            'S E A R C H  P A G E',
+            style: TextStyle(color: Colors.black),
+          ),
         ),
       ),
       body: Column(
@@ -38,48 +41,39 @@ class _ExpenseSearchPageState extends State<SearchPage> {
               horizontal: 10.0,
               vertical: 25.0,
             ),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    const Color.fromARGB(255, 33, 229, 243).withAlpha(100),
-                    const Color.fromARGB(255, 14, 196, 246).withAlpha(100),
-                  ],
+            child: TextField(
+              controller: _searchcontroller,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: 'Search',
+                hintStyle: TextStyle(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
                 ),
-                boxShadow: [
-                  BoxShadow(color: const Color.fromARGB(255, 196, 51, 209)),
-                ],
-                borderRadius: BorderRadius.circular(30),
               ),
-              child: TextField(
-                controller: _searchcontroller,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search, color: Colors.white),
-                  hintText: 'Search',
-                  hintStyle: TextStyle(color: Colors.white),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onChanged: (query) {
-                  setState(() {
-                    _filteredExpenses =
-                        _allExpenses
-                            .where(
-                              (e) => e.description.toLowerCase().contains(
-                                query.toLowerCase(),
-                              ),
-                            )
-                            .toList();
-                  });
-                },
-              ),
+              onChanged: (query) {
+                setState(() {
+                  _filteredExpenses =
+                      _allExpenses
+                          .where(
+                            (e) => e.description.toLowerCase().contains(
+                              query.toLowerCase(),
+                            ),
+                          )
+                          .toList();
+                });
+              },
             ),
           ),
           Expanded(
             child:
                 _filteredExpenses.isEmpty
-                    ? Text('No matching expenses.')
+                    ? Center(
+                      child: Text(
+                        'No matching expenses.',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    )
                     : ListView.builder(
                       itemCount: _filteredExpenses.length,
                       itemBuilder: (context, index) {

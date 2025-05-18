@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:expense_tracker/pages/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});

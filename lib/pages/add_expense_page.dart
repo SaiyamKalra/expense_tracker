@@ -2,7 +2,6 @@ import 'package:expense_tracker/cubit/expense_cubit.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddExpensePage extends StatefulWidget {
@@ -61,7 +60,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
               controller: _descriptionController,
               decoration: InputDecoration(
                 labelText: 'Description',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 prefixIcon: Icon(Icons.abc),
               ),
             ),
@@ -72,27 +73,27 @@ class _AddExpensePageState extends State<AddExpensePage> {
             child: SizedBox(
               height: 60,
 
-              child: Container(
-                height: 60,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black45),
+              child: DropdownButtonFormField<String>(
+                hint: Text('Select Category'),
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.wallet),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
-                child: DropdownButton<String>(
-                  hint: Text('Select Category'),
-                  value: selectedCategory,
-                  items:
-                      category.map((String categories) {
-                        return DropdownMenuItem<String>(
-                          value: categories,
-                          child: Text(categories),
-                        );
-                      }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedCategory = newValue;
-                    });
-                  },
-                ),
+                value: selectedCategory,
+                items:
+                    category.map((String categories) {
+                      return DropdownMenuItem<String>(
+                        value: categories,
+                        child: Text(categories),
+                      );
+                    }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedCategory = newValue;
+                  });
+                },
               ),
             ),
           ),
