@@ -1,4 +1,5 @@
 import 'package:expense_tracker/cubit/expense_cubit.dart';
+import 'package:expense_tracker/pages/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +20,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: SplashScreenPage(),
       // theme: ThemeData.dark(),
     );
   }
