@@ -47,7 +47,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
               controller: _amountController,
               decoration: InputDecoration(
                 labelText: 'Amount',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 prefixIcon: Icon(Icons.currency_rupee),
               ),
             ),

@@ -64,14 +64,14 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Expense \n  Tracker',
+                          'Expense Tracker',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 55,
+                            fontSize: 35,
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(width: 70),
+                        SizedBox(width: 45),
                         Column(
                           children: [
                             Padding(
